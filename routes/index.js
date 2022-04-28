@@ -14,7 +14,7 @@ router.get("/", function (req, res, next) {
   }
 });
 /* GET React App */
-router.get("/cookie", function (req, res, next) {
+router.get("/login", function (req, res, next) {
   res.cookie("name", "express", { maxAge: cookieTime });
   res.json("ok");
 });

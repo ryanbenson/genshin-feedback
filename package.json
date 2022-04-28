@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "dev": "concurrently \"npm run start\" \"cd frontend && npm run start\"",
     "start": "node ./bin/www",
     "build-frontend": "cd frontend && npm run build",
     "build-copy-files": "cp -a frontend/build/static static",
