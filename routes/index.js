@@ -1,4 +1,5 @@
 const express = require("express");
+const passport = require("passport");
 const path = require("path");
 const router = express.Router();
 // s * min * h * days
@@ -6,6 +7,7 @@ const cookieTime = 60000 * 60 * 24 * 30;
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
+  console.log(req.cookies);
   const cookieVal = req.cookies?.name ?? null;
   if (!cookieVal || cookieVal !== "express") {
     res.render("index", { title: "Express" });
@@ -15,9 +17,21 @@ router.get("/", function (req, res, next) {
 });
 /* GET React App */
 router.get("/login", function (req, res, next) {
-  res.cookie("name", "express", { maxAge: cookieTime });
-  res.json("ok");
+  res.render("login");
 });
+
+router.get("/login/google", passport.authenticate("google"));
+
+router.get(
+  "/oauth2/redirect/google",
+  passport.authenticate("google", {
+    failureRedirect: "/login",
+    failureMessage: true,
+  }),
+  function (req, res) {
+    res.redirect("/");
+  }
+);
 
 router.get("/logout", function (req, res, next) {
   res.clearCookie("name");
