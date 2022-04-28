@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"npm run start\" \"cd frontend && npm run start\"",
+    "dev": "NODE_ENV=local concurrently \"npm run start\" \"cd frontend && npm run start\"",
     "start": "node ./bin/www",
     "build-frontend": "cd frontend && npm run build",
     "build-copy-files": "cp -a frontend/build/static static",
@@ -12,6 +12,7 @@
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "dotenv": "^16.0.0",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
     "express-session": "^1.17.2",
