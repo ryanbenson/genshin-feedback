@@ -34,6 +34,14 @@ app.use(express.static(path.join(__dirname, "static")));
 
 var GoogleStrategy = require("passport-google-oidc");
 
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function (user, done) {
+  done(null, user);
+});
+
 passport.use(
   new GoogleStrategy(
     {
