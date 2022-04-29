@@ -17,4 +17,9 @@ That will start Express and React. Express will be on localhost:3001, React will
 ```bash
 GOOGLE_CLIENT_ID="***"
 GOOGLE_CLIENT_SECRET="***"
+MYSQL_HOST="***"
+MYSQL_PORT="***"
+MYSQL_USERNAME="***"
+MYSQL_PASSWORD="***"
+MYSQL_DATABASE="***"
 ```

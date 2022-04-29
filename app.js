@@ -6,6 +6,86 @@ const passport = require("passport");
 const cookieParser = require("cookie-parser");
 var session = require("express-session");
 const logger = require("morgan");
+const { Sequelize, DataTypes } = require("sequelize");
+
+(async () => {
+  const initDatabase = async () => {
+    const sequelize = new Sequelize(
+      process.env["MYSQL_DATABASE"],
+      process.env["MYSQL_USERNAME"],
+      process.env["MYSQL_PASSWORD"],
+      {
+        host: process.env["MYSQL_HOST"],
+        port: 8889,
+        dialect: "mysql",
+      }
+    );
+
+    try {
+      await sequelize.authenticate();
+      console.log("Connection has been established successfully.");
+    } catch (error) {
+      throw ("Unable to connect to the database:", error);
+    }
+
+    const User = sequelize.define(
+      "User",
+      {
+        // Model attributes are defined here
+        id: {
+          type: DataTypes.UUIDV4,
+          allowNull: false,
+        },
+        profileId: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        genshinId: {
+          type: DataTypes.INTEGER,
+        },
+        avatar: {
+          type: DataTypes.STRING,
+        },
+        enabled: {
+          type: DataTypes.BOOLEAN,
+        },
+      },
+      {
+        // Other model options go here
+      }
+    );
+    const Feedback = sequelize.define(
+      "Feedback",
+      {
+        // Model attributes are defined here
+        id: {
+          type: DataTypes.UUIDV4,
+          allowNull: false,
+        },
+        userId: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        content: {
+          type: DataTypes.TEXT,
+        },
+        votes: {
+          type: DataTypes.INTEGER,
+        },
+        enabled: {
+          type: DataTypes.BOOLEAN,
+        },
+      },
+      {
+        // Other model options go here
+      }
+    );
+    await sequelize.sync({ force: true });
+    console.log("All models were synchronized successfully.");
+  };
+
+  await initDatabase();
+})();
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
