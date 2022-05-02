@@ -1,0 +1,20 @@
+version: "3"
+services:
+  database:
+    image: "mysql"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: genshin_feedback
+      MYSQL_PASSWORD: root
+  web:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: .
+    ports:
+      - "3001:3001"
+      - "3000:3000"
+    volumes:
+      - /app/node_modules
+      - .:/app
