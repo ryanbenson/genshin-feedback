@@ -1,12 +1,19 @@
 version: "3"
 services:
   database:
-    image: "mysql"
+    image: mysql:5.7
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: genshin_feedback
       MYSQL_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_TCP_PORT: 3307
+    volumes:
+      - ${PWD}/mysql/db/:/var/lib/mysql
+    ports:
+      - "3307:3307"
+
   web:
     restart: always
     build:
@@ -18,3 +25,5 @@ services:
     volumes:
       - /app/node_modules
       - .:/app
+    depends_on:
+      - database
