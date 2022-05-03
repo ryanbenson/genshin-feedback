@@ -16,7 +16,7 @@ const { Sequelize, DataTypes } = require("sequelize");
       process.env["MYSQL_PASSWORD"],
       {
         host: process.env["MYSQL_HOST"],
-        port: 8889,
+        port: process.env["MYSQL_PORT"],
         dialect: "mysql",
       }
     );
@@ -29,18 +29,20 @@ const { Sequelize, DataTypes } = require("sequelize");
     }
 
     const User = sequelize.define(
-      "User",
+      "user",
       {
         // Model attributes are defined here
         id: {
-          type: DataTypes.UUIDV4,
+          type: DataTypes.UUID,
+          defaultValue: DataTypes.UUIDV4,
           allowNull: false,
+          primaryKey: true,
         },
         profileId: {
           type: DataTypes.STRING,
           allowNull: false,
         },
-        genshinId: {
+        genshinUid: {
           type: DataTypes.INTEGER,
         },
         avatar: {
@@ -51,23 +53,38 @@ const { Sequelize, DataTypes } = require("sequelize");
         },
       },
       {
-        // Other model options go here
+        indexes: [
+          {
+            unique: true,
+            fields: ["profileId"],
+          },
+          {
+            unique: true,
+            fields: ["genshinUid"],
+          },
+          {
+            unique: false,
+            fields: ["enabled"],
+          },
+        ],
       }
     );
     const Feedback = sequelize.define(
-      "Feedback",
+      "feedback",
       {
         // Model attributes are defined here
         id: {
-          type: DataTypes.UUIDV4,
+          type: DataTypes.UUID,
+          defaultValue: DataTypes.UUIDV4,
           allowNull: false,
+          primaryKey: true,
         },
         userId: {
           type: DataTypes.STRING,
           allowNull: false,
         },
         content: {
-          type: DataTypes.TEXT,
+          type: DataTypes.STRING,
         },
         votes: {
           type: DataTypes.INTEGER,
@@ -77,7 +94,20 @@ const { Sequelize, DataTypes } = require("sequelize");
         },
       },
       {
-        // Other model options go here
+        indexes: [
+          {
+            unique: false,
+            fields: ["userId"],
+          },
+          {
+            unique: false,
+            fields: ["content"],
+          },
+          {
+            unique: false,
+            fields: ["enabled"],
+          },
+        ],
       }
     );
     await sequelize.sync({ force: true });
