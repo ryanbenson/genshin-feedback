@@ -12,6 +12,7 @@ frontend/node_modules
 # production
 /build
 static/static
+mysql
 
 # misc
 .DS_Store
