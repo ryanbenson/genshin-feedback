@@ -42,6 +42,10 @@ const { Sequelize, DataTypes } = require("sequelize");
           type: DataTypes.STRING,
           allowNull: false,
         },
+        profilePlatform: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
         genshinUid: {
           type: DataTypes.INTEGER,
         },
@@ -57,6 +61,10 @@ const { Sequelize, DataTypes } = require("sequelize");
           {
             unique: true,
             fields: ["profileId"],
+          },
+          {
+            unique: false,
+            fields: ["profilePlatform", "profileId"],
           },
           {
             unique: true,
