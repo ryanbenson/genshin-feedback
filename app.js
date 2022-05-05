@@ -6,122 +6,21 @@ const passport = require("passport");
 const cookieParser = require("cookie-parser");
 var session = require("express-session");
 const logger = require("morgan");
-const { Sequelize, DataTypes } = require("sequelize");
+const { Sequelize } = require("sequelize");
+const { db } = require("./utils/database");
 
 (async () => {
   const initDatabase = async () => {
-    const sequelize = new Sequelize(
-      process.env["MYSQL_DATABASE"],
-      process.env["MYSQL_USERNAME"],
-      process.env["MYSQL_PASSWORD"],
-      {
-        host: process.env["MYSQL_HOST"],
-        port: process.env["MYSQL_PORT"],
-        dialect: "mysql",
-      }
-    );
-
     try {
-      await sequelize.authenticate();
+      await db.authenticate();
       console.log("Connection has been established successfully.");
     } catch (error) {
       throw ("Unable to connect to the database:", error);
     }
 
-    const User = sequelize.define(
-      "user",
-      {
-        // Model attributes are defined here
-        id: {
-          type: DataTypes.UUID,
-          defaultValue: DataTypes.UUIDV4,
-          allowNull: false,
-          primaryKey: true,
-        },
-        profileId: {
-          type: DataTypes.STRING,
-          allowNull: false,
-        },
-        profilePlatform: {
-          type: DataTypes.STRING,
-          allowNull: false,
-        },
-        genshinUid: {
-          type: DataTypes.INTEGER,
-        },
-        avatar: {
-          type: DataTypes.STRING,
-        },
-        enabled: {
-          type: DataTypes.BOOLEAN,
-        },
-      },
-      {
-        indexes: [
-          {
-            unique: true,
-            fields: ["profileId"],
-          },
-          {
-            unique: false,
-            fields: ["profilePlatform", "profileId"],
-          },
-          {
-            unique: true,
-            fields: ["genshinUid"],
-          },
-          {
-            unique: false,
-            fields: ["enabled"],
-          },
-        ],
-      }
-    );
-    const Feedback = sequelize.define(
-      "feedback",
-      {
-        // Model attributes are defined here
-        id: {
-          type: DataTypes.UUID,
-          defaultValue: DataTypes.UUIDV4,
-          allowNull: false,
-          primaryKey: true,
-        },
-        userId: {
-          type: DataTypes.STRING,
-          allowNull: false,
-        },
-        content: {
-          type: DataTypes.STRING,
-        },
-        votes: {
-          type: DataTypes.INTEGER,
-        },
-        enabled: {
-          type: DataTypes.BOOLEAN,
-        },
-      },
-      {
-        indexes: [
-          {
-            unique: false,
-            fields: ["userId"],
-          },
-          {
-            unique: false,
-            fields: ["content"],
-          },
-          {
-            unique: false,
-            fields: ["enabled"],
-          },
-        ],
-      }
-    );
-    await sequelize.sync({ force: true });
+    await db.sync({ force: true });
     console.log("All models were synchronized successfully.");
   };
-
   await initDatabase();
 })();
 
