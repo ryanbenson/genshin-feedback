@@ -27,6 +27,7 @@ module.exports = (sequelize) => {
       },
       enabled: {
         type: DataTypes.BOOLEAN,
+        defaultValue: 1,
       },
     },
     {
