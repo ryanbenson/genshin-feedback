@@ -18,7 +18,7 @@ const { db, User } = require("./utils/database");
       throw ("Unable to connect to the database:", error);
     }
 
-    await db.sync({ force: true });
+    await db.sync({ alter: true });
     console.log("All models were synchronized successfully.");
   };
   await initDatabase();
