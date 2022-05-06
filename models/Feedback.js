@@ -22,7 +22,7 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
       },
       enabled: {
-        type: DataTypes.BOOLEAN,,
+        type: DataTypes.BOOLEAN,
         defaultValue: 1,
       },
     },
