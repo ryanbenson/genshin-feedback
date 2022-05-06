@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_ENV=local concurrently \"npm run start\" \"cd frontend && npm run start\"",
+    "dev": "NODE_ENV=local concurrently \"nodemon ./bin/www\" \"cd frontend && npm run start\"",
     "start": "node ./bin/www",
     "build-frontend": "cd frontend && npm run build",
     "build-copy-files": "cp -a frontend/build/static static",
