@@ -6,9 +6,8 @@ const { User } = require("../utils/database");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
-  console.log(req.cookies);
-  const cookieVal = req.cookies?.name ?? null;
-  if (!cookieVal || cookieVal !== "express") {
+  const cookieVal = req.cookies["connect.sid"] ?? null;
+  if (!cookieVal) {
     User.findAll().then((users) => res.json(users));
     //res.render("index", { title: "Express" });
   } else {
@@ -34,8 +33,8 @@ router.get(
 );
 
 router.get("/logout", function (req, res, next) {
-  res.clearCookie("name");
-  res.json("goodbye");
+  res.clearCookie("connect.sid");
+  res.redirect("/");
 });
 
 module.exports = router;
