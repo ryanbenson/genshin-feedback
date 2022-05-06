@@ -6,11 +6,11 @@ const { User } = require("../utils/database");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
-  const cookieVal = req.cookies["connect.sid"] ?? null;
-  if (!cookieVal) {
+  if (!req.isAuthenticated()) {
     User.findAll().then((users) => res.json(users));
     //res.render("index", { title: "Express" });
   } else {
+    console.log(req.user);
     res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
   }
 });
