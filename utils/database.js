@@ -20,6 +20,21 @@ const Feedback = FeedbackModel(db);
 const FeedbackLike = FeedbackLikeModel(db);
 const FeedbackSave = FeedbackSaveModel(db);
 
+// setup user associations
+User.hasMany(Feedback);
+User.hasMany(FeedbackLike);
+User.hasMany(FeedbackSave);
+// setup feedback associations
+Feedback.belongsTo(User);
+Feedback.hasMany(FeedbackLike);
+Feedback.hasMany(FeedbackSave);
+// setup feedback like associations
+FeedbackLike.belongsTo(User);
+FeedbackLike.belongsTo(Feedback);
+// setup feedback save associations
+FeedbackSave.belongsTo(User);
+FeedbackSave.belongsTo(Feedback);
+
 module.exports = {
   db,
   User,
