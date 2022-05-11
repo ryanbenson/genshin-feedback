@@ -32,7 +32,7 @@ router.post("/api/feedbackSave", async function (req, res, next) {
   return res.json(newFeedbackSave);
 });
 
-router.delete("/api/feedbackLike/:id", async function (req, res, next) {
+router.delete("/api/feedbackSave/:id", async function (req, res, next) {
   if (!req.isAuthenticated()) {
     res.status(401);
     return res.json({ message: "Unauthorized" });
@@ -49,7 +49,7 @@ router.delete("/api/feedbackLike/:id", async function (req, res, next) {
     return res.json({ message: "Not found" });
   }
   // delete the record
-  await jane.destroy();
+  await feedbackSaveItem.destroy();
 
   return res.json({ success: true });
 });
