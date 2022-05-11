@@ -7,7 +7,7 @@ router.get("/api/feedbackSave", async function (req, res, next) {
     res.status(401);
     return res.json({ message: "Unauthorized" });
   }
-  return await Feedback.findAll().then((users) => res.json(users));
+  return await FeedbackSave.findAll().then((users) => res.json(users));
 });
 
 router.post("/api/feedbackSave", async function (req, res, next) {
@@ -23,13 +23,13 @@ router.post("/api/feedbackSave", async function (req, res, next) {
     feedbackId: req.body.feedbackId,
     userId: req.user.id,
   };
-  const newFeedback = await Feedback.create(data);
-  if (!newFeedback) {
+  const newFeedbackSave = await FeedbackSave.create(data);
+  if (!newFeedbackSave) {
     res.status(500);
     return res.json({ message: "Error creating new piece of feedback" });
   }
 
-  return res.json(newFeedback);
+  return res.json(newFeedbackSave);
 });
 
 router.delete("/api/feedbackLike/:id", async function (req, res, next) {
@@ -38,13 +38,13 @@ router.delete("/api/feedbackLike/:id", async function (req, res, next) {
     return res.json({ message: "Unauthorized" });
   }
   // is it a real one? and does the user own it?
-  const feedbackItem = await Feedback.findOne({
+  const feedbackSaveItem = await FeedbackSave.findOne({
     where: {
       id: req.params?.id,
       userId: req.user.id,
     },
   });
-  if (!feedbackItem) {
+  if (!feedbackSaveItem) {
     res.status(404);
     return res.json({ message: "Not found" });
   }
