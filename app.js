@@ -27,6 +27,8 @@ const { db, User } = require("./utils/database");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const feedbackRouter = require("./routes/feedback");
+const feedbackLikeRouter = require("./routes/feedbackLike");
+const feedbackSaveRouter = require("./routes/feedbackSave");
 
 const app = express();
 
@@ -84,6 +86,8 @@ passport.use(
 
 app.use("/", indexRouter);
 app.use("/", feedbackRouter);
+app.use("/", feedbackLikeRouter);
+app.use("/", feedbackSaveRouter);
 app.use("/users", usersRouter);
 
 // catch 404 and forward to error handler
