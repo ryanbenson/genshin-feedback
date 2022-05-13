@@ -1,4 +1,5 @@
 const Sequelize = require("sequelize");
+const { DataTypes } = require("sequelize");
 const UserModel = require("../models/User");
 const FeedbackModel = require("../models/Feedback");
 const FeedbackLikeModel = require("../models/FeedbackLike");
@@ -21,19 +22,59 @@ const FeedbackLike = FeedbackLikeModel(db);
 const FeedbackSave = FeedbackSaveModel(db);
 
 // setup user associations
-User.hasMany(Feedback);
-User.hasMany(FeedbackLike);
-User.hasMany(FeedbackSave);
+User.hasMany(Feedback, {
+  foreignKey: {
+    type: DataTypes.UUID,
+  },
+});
+User.hasMany(FeedbackLike, {
+  foreignKey: {
+    type: DataTypes.UUID,
+  },
+});
+User.hasMany(FeedbackSave, {
+  foreignKey: {
+    type: DataTypes.UUID,
+  },
+});
 // setup feedback associations
-Feedback.belongsTo(User);
-Feedback.hasMany(FeedbackLike);
-Feedback.hasMany(FeedbackSave);
+Feedback.belongsTo(User, {
+  foreignKey: {
+    type: DataTypes.UUID,
+  },
+});
+Feedback.hasMany(FeedbackLike, {
+  foreignKey: {
+    type: DataTypes.UUID,
+  },
+});
+Feedback.hasMany(FeedbackSave, {
+  foreignKey: {
+    type: DataTypes.UUID,
+  },
+});
 // setup feedback like associations
-FeedbackLike.belongsTo(User);
-FeedbackLike.belongsTo(Feedback);
+FeedbackLike.belongsTo(User, {
+  foreignKey: {
+    type: DataTypes.UUID,
+  },
+});
+FeedbackLike.belongsTo(Feedback, {
+  foreignKey: {
+    type: DataTypes.UUID,
+  },
+});
 // setup feedback save associations
-FeedbackSave.belongsTo(User);
-FeedbackSave.belongsTo(Feedback);
+FeedbackSave.belongsTo(User, {
+  foreignKey: {
+    type: DataTypes.UUID,
+  },
+});
+FeedbackSave.belongsTo(Feedback, {
+  foreignKey: {
+    type: DataTypes.UUID,
+  },
+});
 
 module.exports = {
   db,
