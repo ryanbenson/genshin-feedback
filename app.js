@@ -6,7 +6,6 @@ const passport = require("passport");
 const cookieParser = require("cookie-parser");
 var session = require("express-session");
 const logger = require("morgan");
-const { Sequelize } = require("sequelize");
 const { db, User } = require("./utils/database");
 
 (async () => {
