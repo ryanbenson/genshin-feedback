@@ -8,9 +8,7 @@ router.get("/api/feedback", async function (req, res, next) {
     res.status(401);
     return res.json({ message: "Unauthorized" });
   }
-  return await Feedback.findAll({
-    include: [{ FeedbackLike }, { FeedbackSave }],
-  }).then((users) => res.json(users));
+  return await Feedback.findAll().then((users) => res.json(users));
 });
 
 router.get("/api/feedback/:id", async function (req, res, next) {
