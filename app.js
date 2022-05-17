@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 var session = require("express-session");
 const logger = require("morgan");
 const { db, User } = require("./utils/database");
+const cors = require("cors");
 
 (async () => {
   const initDatabase = async () => {
@@ -36,9 +37,16 @@ app.use(
     secret: process.env["SESSION_SECRET"],
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      path: "/",
+      domain: "localhost",
+      maxAge: 1000 * 60 * 24, // 24 hours
+    },
     // store: new SQLiteStore({ db: "sessions.db", dir: "./var/db" }),
   })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(passport.authenticate("session"));
 
 // view engine setup
@@ -81,6 +89,13 @@ passport.use(
       return cb(null, user);
     }
   )
+);
+
+app.use(
+  cors({
+    credentials: true,
+    origin: true,
+  })
 );
 
 app.use("/", indexRouter);
