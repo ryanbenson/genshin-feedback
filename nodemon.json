@@ -1,0 +1,3 @@
+{
+  "ignore": ["frontend", "mysql", "node_modules"]
+}
