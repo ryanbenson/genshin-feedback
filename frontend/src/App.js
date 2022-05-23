@@ -3,18 +3,20 @@ import { useSelector, useDispatch } from "react-redux";
 import logo from "./logo.svg";
 import { Counter } from "./features/counter/Counter";
 import "./App.css";
-import { incrementAsync } from "./features/counter/counterSlice";
+import { fetchAsync, selectList } from "./features/feedback/feedbackSlice";
 
 function App() {
   const dispatch = useDispatch();
+
+  const data = useSelector(selectList);
   useEffect(() => {
-    dispatch(incrementAsync());
+    dispatch(fetchAsync());
+    console.log(data);
   }, []);
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
