@@ -8,9 +8,25 @@ router.get("/api/feedback", async function (req, res, next) {
     res.status(401);
     return res.json({ message: "Unauthorized" });
   }
-  return await Feedback.findAll({ include: [FeedbackLike, FeedbackSave] }).then(
-    (users) => res.json(users)
-  );
+  // const feedback = await Feedback.findAll().then((users) => res.json(users));
+  // get all feedback items, and also the count of likes, but we don't need saves
+  const feedbackItems = Feedback.findAll({
+    attributes: {
+      include: [
+        [
+          Sequelize.fn("COUNT", Sequelize.col("feedback_likes.id")),
+          "feedbackLikesCount",
+        ],
+      ],
+    },
+    include: [
+      {
+        model: FeedbackLike,
+        attributes: [],
+      },
+    ],
+  });
+  return res.json(feedbackItems);
 });
 
 router.get("/api/feedback/:id", async function (req, res, next) {
