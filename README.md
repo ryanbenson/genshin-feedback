@@ -8,7 +8,7 @@
 ## Local Development
 
 - Create a `.env.local` to get started and fill in the configurations
-- Run `npm run dev`
+- Run `docker compose up` to boot up both the app/API, and the React app that has live-reload
 
 That will start Express and React. Express will be on localhost:3001, React will be on localhost:3000.
 
