@@ -3,7 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import logo from "./logo.svg";
 import { Counter } from "./features/counter/Counter";
 import "./App.css";
-import { fetchAsync, selectList } from "./features/feedback/feedbackSlice";
+import {
+  fetchAsync,
+  postAsync,
+  selectList,
+} from "./features/feedback/feedbackSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -17,6 +21,11 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+        <div>
+          <button onClick={() => dispatch(postAsync("hello mate"))}>
+            Add New
+          </button>
+        </div>
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>

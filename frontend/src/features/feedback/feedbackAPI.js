@@ -18,7 +18,7 @@ export function createFeedback(content) {
     axios
       .post(
         "http://localhost:3001/api/feedback",
-        { content: "hello" },
+        { content },
         { withCredentials: true }
       )
       .then(function (response) {
