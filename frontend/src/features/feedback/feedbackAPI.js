@@ -29,3 +29,24 @@ export function createFeedback(content) {
       });
   });
 }
+
+export function updateFeedback(id, content, enabled) {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(
+        "http://localhost:3001/api/feedback",
+        {
+          id,
+          content,
+          enabled,
+        },
+        { withCredentials: true }
+      )
+      .then(function (response) {
+        resolve(response);
+      })
+      .catch(function (error) {
+        reject(error);
+      });
+  });
+}

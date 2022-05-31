@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getFeedback, createFeedback } from "./feedbackAPI";
+import { getFeedback, createFeedback, updateFeedback } from "./feedbackAPI";
 
 const initialState = {
   list: [],
@@ -24,6 +24,15 @@ export const postAsync = createAsyncThunk(
   "feedback/postFeedback",
   async (content) => {
     const response = await createFeedback(content);
+    // The value we return becomes the `fulfilled` action payload
+    return response.data;
+  }
+);
+
+export const updateAsync = createAsyncThunk(
+  "feedback/updateFeedback",
+  async (content) => {
+    const response = await updateFeedback(content);
     // The value we return becomes the `fulfilled` action payload
     return response.data;
   }
@@ -66,6 +75,22 @@ export const feedbackSlice = createSlice({
       .addCase(postAsync.fulfilled, (state, action) => {
         state.isLoading = false;
         state.list.push(action.payload);
+      })
+      .addCase(updateAsync.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateAsync.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const newList = [];
+        state.list.forEach((item) => {
+          if (item.id === action.payload.id) {
+            newList.push(action.payload);
+          } else {
+            newList.push(item);
+          }
+        });
+
+        state.list = newList;
       });
   },
 });
