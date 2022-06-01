@@ -1,5 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getFeedback, createFeedback, updateFeedback } from "./feedbackAPI";
+import {
+  getFeedback,
+  createFeedback,
+  updateFeedback,
+  enableFeedback,
+  disableFeedback,
+} from "./feedbackAPI";
 
 const initialState = {
   list: [],
@@ -33,6 +39,24 @@ export const updateAsync = createAsyncThunk(
   "feedback/updateFeedback",
   async (content) => {
     const response = await updateFeedback(content);
+    // The value we return becomes the `fulfilled` action payload
+    return response.data;
+  }
+);
+
+export const enableAsync = createAsyncThunk(
+  "feedback/enableFeedback",
+  async (id) => {
+    const response = await enableFeedback(id);
+    // The value we return becomes the `fulfilled` action payload
+    return response.data;
+  }
+);
+
+export const disableAsync = createAsyncThunk(
+  "feedback/disableFeedback",
+  async (id) => {
+    const response = await disableFeedback(id);
     // The value we return becomes the `fulfilled` action payload
     return response.data;
   }
@@ -80,6 +104,38 @@ export const feedbackSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(updateAsync.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const newList = [];
+        state.list.forEach((item) => {
+          if (item.id === action.payload.id) {
+            newList.push(action.payload);
+          } else {
+            newList.push(item);
+          }
+        });
+
+        state.list = newList;
+      })
+      .addCase(enableAsync.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(enableAsync.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const newList = [];
+        state.list.forEach((item) => {
+          if (item.id === action.payload.id) {
+            newList.push(action.payload);
+          } else {
+            newList.push(item);
+          }
+        });
+
+        state.list = newList;
+      })
+      .addCase(disableAsync.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(disableAsync.fulfilled, (state, action) => {
         state.isLoading = false;
         const newList = [];
         state.list.forEach((item) => {

@@ -50,3 +50,43 @@ export function updateFeedback(id, content, enabled) {
       });
   });
 }
+
+export function disableFeedback(id) {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(
+        "http://localhost:3001/api/feedback",
+        {
+          id,
+          enabled: false,
+        },
+        { withCredentials: true }
+      )
+      .then(function (response) {
+        resolve(response);
+      })
+      .catch(function (error) {
+        reject(error);
+      });
+  });
+}
+
+export function enableFeedback(id) {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(
+        "http://localhost:3001/api/feedback",
+        {
+          id,
+          enabled: true,
+        },
+        { withCredentials: true }
+      )
+      .then(function (response) {
+        resolve(response);
+      })
+      .catch(function (error) {
+        reject(error);
+      });
+  });
+}
