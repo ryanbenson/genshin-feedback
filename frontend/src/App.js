@@ -8,6 +8,10 @@ import {
   postAsync,
   selectList,
 } from "./features/feedback/feedbackSlice";
+import {
+  postFeedbackLikeAsync,
+  deleteFeedbackLikeAsync,
+} from "./features/feedbackLike/feedbackLikeSlice";
 
 function App() {
   const dispatch = useDispatch();
