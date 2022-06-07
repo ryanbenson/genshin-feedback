@@ -29,6 +29,12 @@ function App() {
           <button onClick={() => dispatch(postAsync("hello mate"))}>
             Add New
           </button>
+          <button onClick={() => dispatch(postFeedbackLikeAsync(1))}>
+            Like
+          </button>
+          <button onClick={() => dispatch(deleteFeedbackLikeAsync(1))}>
+            Remove Like
+          </button>
         </div>
         <p>
           Edit <code>src/App.js</code> and save to reload.
